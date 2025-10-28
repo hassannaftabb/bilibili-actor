@@ -1,5 +1,5 @@
 export interface BilibiliInput {
-    keywords?: string[] | string;
+    search?: string;
     maxResults?: number;
     concurrency?: number;
     requestDelayMs?: number;

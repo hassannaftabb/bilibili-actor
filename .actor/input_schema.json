@@ -4,16 +4,12 @@
     "type": "object",
     "schemaVersion": 1,
     "properties": {
-        "keywords": {
-            "title": "Keywords",
-            "type": "array",
-            "description": "List of search keywords for Bilibili videos.",
-            "editor": "select",
-            "items": {
-                "type": "string",
-                "enum": ["原神", "英雄联盟", "TechReview", "Vlog"]
-            },
-            "prefill": ["原神"]
+        "search": {
+            "title": "Search",
+            "type": "string",
+            "description": "Search query for Bilibili videos.",
+            "editor": "textfield",
+            "prefill": "原神"
         },
         "maxResults": {
             "title": "Max Results",
@@ -44,6 +40,6 @@
             "default": true
         }
     },
-    "required": ["keywords"],
+    "required": ["search"],
     "additionalProperties": false
 }

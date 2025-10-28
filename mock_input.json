@@ -1,5 +1,5 @@
 {
-    "keywords": ["原神"],
+    "search": "原神",
     "maxResults": 3,
     "concurrency": 3,
     "requestDelayMs": 400,

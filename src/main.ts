@@ -24,22 +24,19 @@ try {
     console.info('🎬 INPUT LOADED:', input);
 
     let {
-        keywords = ['原神'], // default keyword: "Genshin Impact"
+        search = '原神', // default keyword: "Genshin Impact"
         maxResults = 5,
         concurrency = 3,
         requestDelayMs = 400,
         headless = true,
     } = input;
 
-    if (!Array.isArray(keywords)) {
-        keywords = [String(keywords)].filter(Boolean);
-    }
+    search = String(search).trim();
+    if (!search) throw new Error('Search text must not be empty.');
 
     maxResults = Math.max(1, Math.min(maxResults, 50));
     concurrency = Math.max(1, Math.min(concurrency, 10));
     requestDelayMs = Math.max(100, Math.min(requestDelayMs, 3000));
-
-    if (!keywords.length) throw new Error('At least one keyword must be provided.');
 
     const limit = pLimit(concurrency);
 
@@ -130,6 +127,7 @@ try {
                                 log.warning(`⚠️ Skipping ${bvid}: invalid API response`);
                                 return;
                             }
+
                             const vData: BilibiliViewResponse['data'] = view?.data ?? {
                                 bvid: '',
                                 title: '',
@@ -151,6 +149,7 @@ try {
                                 ...(sData.stat ?? {}),
                                 ...(vData.stat ?? {}),
                             };
+
                             const out: BilibiliVideoData = {
                                 video_id: bvid,
                                 url: `https://www.bilibili.com/video/${bvid}`,
@@ -195,12 +194,9 @@ try {
         },
     });
 
-    const searchUrls = keywords.map(
-        (kw) => `https://search.bilibili.com/all?keyword=${encodeURIComponent(kw)}`
-    );
-
-    console.info('📦 Enqueuing search pages:', searchUrls);
-    await crawler.run(searchUrls);
+    const searchUrl = `https://search.bilibili.com/all?keyword=${encodeURIComponent(search)}`;
+    console.info('📦 Enqueuing search page:', searchUrl);
+    await crawler.run([searchUrl]);
 
     console.info('🏁 Crawl completed successfully.');
 } catch (err) {
