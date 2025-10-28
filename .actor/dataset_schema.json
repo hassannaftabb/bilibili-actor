@@ -1,4 +1,6 @@
 {
+    "actorOutputSchemaVersion": 1,
+    "actorSpecification": 1,
     "title": "Bilibili Dataset Schema",
     "description": "Defines the structure of data items output by the Bilibili Trend Crawler.",
     "type": "object",
