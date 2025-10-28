@@ -22,7 +22,7 @@ FROM apify/actor-node-playwright-chrome:22-1.56.1
 COPY --chown=myuser:myuser package.json yarn.lock ./
 
 # Install production-only deps
-RUN yarn install --frozen-lockfile --production --ignore-optional && \
+RUN yarn install --frozen-lockfile --production=false && \
     yarn cache clean
 
 # Copy compiled files
