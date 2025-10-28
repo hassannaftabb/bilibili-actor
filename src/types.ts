@@ -1,29 +1,49 @@
-export interface BilibiliAuthor {
-    user_id: number;
-    username: string;
-}
-
-export interface BilibiliContent {
-    duration: number;
-    publish_time: number;
-}
-
-export interface BilibiliEngagement {
-    views: number;
-    likes: number;
-    coins: number;
-    favorites: number;
-    shares: number;
-    engagement_rate: number;
-}
 export interface BilibiliInput {
-    keywords: string[] | string;
+    keywords?: string[] | string;
     maxResults?: number;
     concurrency?: number;
     requestDelayMs?: number;
     headless?: boolean;
-    includeComments?: boolean;
-    mode?: 'videos' | 'creators' | 'both';
+}
+
+export interface BilibiliOwner {
+    mid?: number;
+    name?: string;
+}
+
+export interface BilibiliStats {
+    view?: number;
+    like?: number;
+    coin?: number;
+    favorite?: number;
+    share?: number;
+}
+
+export interface BilibiliViewResponse {
+    code: number;
+    message: string;
+    ttl: number;
+    data?: {
+        bvid: string;
+        title: string;
+        desc: string;
+        pic: string;
+        tid: number;
+        tname: string;
+        duration: number;
+        pubdate: number;
+        owner?: BilibiliOwner;
+        stat?: BilibiliStats;
+    };
+}
+
+export interface BilibiliStatResponse {
+    code: number;
+    message: string;
+    ttl: number;
+    data?: {
+        stat?: BilibiliStats;
+    };
 }
 
 export interface BilibiliVideoData {
@@ -32,7 +52,7 @@ export interface BilibiliVideoData {
     title: string;
     description: string;
     thumbnail: string;
-    tags?: string[];
+    tags: string[];
     author: {
         user_id: number;
         username: string;
@@ -48,32 +68,5 @@ export interface BilibiliVideoData {
         favorites: number;
         shares: number;
         engagement_rate: number;
-    };
-}
-
-export interface BilibiliViewResponse {
-    code: number;
-    data?: {
-        bvid: string;
-        title: string;
-        desc: string;
-        pic: string;
-        tid: number;
-        tname: string;
-        duration: number;
-        pubdate: number;
-        owner?: { mid: number; name: string };
-        stat?: { view: number; like: number };
-    };
-}
-
-export interface BilibiliStatResponse {
-    code: number;
-    data?: {
-        view: number;
-        like: number;
-        coin: number;
-        favorite: number;
-        share: number;
     };
 }

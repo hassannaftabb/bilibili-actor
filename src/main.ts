@@ -11,6 +11,7 @@ import type {
     BilibiliVideoData,
     BilibiliViewResponse,
     BilibiliStatResponse,
+    BilibiliStats,
 } from './types.js';
 
 const VIEW_API = 'https://api.bilibili.com/x/web-interface/view';
@@ -68,7 +69,7 @@ try {
                     await page.addInitScript({ content: stealthScript });
                     await page.context().setExtraHTTPHeaders({
                         'User-Agent':
-                            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+                            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
                         'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
                         Referer: 'https://www.bilibili.com/',
                     });
@@ -106,9 +107,17 @@ try {
                         );
 
                         try {
+                            const headers = {
+                                'User-Agent':
+                                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+                                Referer: `https://www.bilibili.com/video/${bvid}`,
+                                Origin: 'https://www.bilibili.com',
+                                'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+                            };
+
                             const [viewResp, statResp] = await Promise.all([
-                                page.request.get(VIEW_API, { params: { bvid } }),
-                                page.request.get(ARCHIVE_STAT_API, { params: { bvid } }),
+                                page.request.get(VIEW_API, { params: { bvid }, headers }),
+                                page.request.get(ARCHIVE_STAT_API, { params: { bvid }, headers }),
                             ]);
 
                             const viewJson = await viewResp.json().catch(() => null);
@@ -121,8 +130,7 @@ try {
                                 log.warning(`⚠️ Skipping ${bvid}: invalid API response`);
                                 return;
                             }
-
-                            const vData = view?.data ?? {
+                            const vData: BilibiliViewResponse['data'] = view?.data ?? {
                                 bvid: '',
                                 title: '',
                                 desc: '',
@@ -132,16 +140,17 @@ try {
                                 duration: 0,
                                 pubdate: 0,
                                 owner: { mid: 0, name: '' },
-                                stat: { view: 0, like: 0 },
-                            };
-                            const sData = stat?.data ?? {
-                                view: 0,
-                                like: 0,
-                                coin: 0,
-                                favorite: 0,
-                                share: 0,
+                                stat: { view: 0, like: 0, coin: 0, favorite: 0, share: 0 },
                             };
 
+                            const sData: BilibiliStatResponse['data'] = stat?.data ?? {
+                                stat: { view: 0, like: 0, coin: 0, favorite: 0, share: 0 },
+                            };
+
+                            const mergedStat: BilibiliStats = {
+                                ...(sData.stat ?? {}),
+                                ...(vData.stat ?? {}),
+                            };
                             const out: BilibiliVideoData = {
                                 video_id: bvid,
                                 url: `https://www.bilibili.com/video/${bvid}`,
@@ -158,16 +167,15 @@ try {
                                     publish_time: vData.pubdate ?? 0,
                                 },
                                 engagement: {
-                                    views: sData.view ?? vData.stat?.view ?? 0,
-                                    likes: sData.like ?? vData.stat?.like ?? 0,
-                                    coins: sData.coin ?? 0,
-                                    favorites: sData.favorite ?? 0,
-                                    shares: sData.share ?? 0,
+                                    views: mergedStat.view ?? 0,
+                                    likes: mergedStat.like ?? 0,
+                                    coins: mergedStat.coin ?? 0,
+                                    favorites: mergedStat.favorite ?? 0,
+                                    shares: mergedStat.share ?? 0,
                                     engagement_rate: 0,
                                 },
                             };
 
-                            // Calculate engagement rate safely
                             const { likes, coins, favorites, views } = out.engagement;
                             out.engagement.engagement_rate =
                                 (likes + coins + favorites) / Math.max(1, views);

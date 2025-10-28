@@ -1,17 +1,12 @@
 {
     "actorSpecification": 1,
-    "name": "bilibili-actor",
+    "name": "bilibili-trend-scraper",
     "title": "Bilibili Trend Crawler",
-    "description": "Capture trends from Bilibili with TypeScript support.",
+    "description": "Scrapes trending or topic-based videos from Bilibili with viewership and engagement stats.",
     "version": "1.0.0",
-    "meta": {
-        "templateId": "ts-crawlee-playwright-chrome",
-        "model": "bilibili-trend-scraper"
-    },
+    "buildTag": "latest",
     "input": "./input_schema.json",
-    "output": "./output_schema.json",
-    "storages": {
-        "dataset": "./dataset_schema.json"
-    },
+    "output": "./dataset_schema.json",
+    "readme": "./README.md",
     "dockerfile": "../Dockerfile"
 }
