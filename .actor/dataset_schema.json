@@ -36,88 +36,28 @@
             "template": "{{thumbnail}}"
         },
         "tags": {
-            "type": "array",
+            "type": "string",
             "title": "Tags",
-            "description": "Video tags/categories",
-            "items": {
-                "type": "string",
-                "template": "{{item}}"
-            },
+            "description": "Comma-separated tags/categories",
             "template": "{{tags}}"
         },
         "author": {
-            "type": "object",
+            "type": "string",
             "title": "Author",
-            "description": "Video author info",
-            "properties": {
-                "user_id": {
-                    "type": "integer",
-                    "title": "User ID",
-                    "template": "{{author.user_id}}"
-                },
-                "username": {
-                    "type": "string",
-                    "title": "Username",
-                    "template": "{{author.username}}"
-                }
-            },
-            "template": "{{author.username}}"
+            "description": "Author name and ID as text",
+            "template": "{{author.username}} (ID: {{author.user_id}})"
         },
         "content": {
-            "type": "object",
-            "title": "Content Metadata",
-            "description": "Video content details",
-            "properties": {
-                "duration": {
-                    "type": "integer",
-                    "title": "Duration (seconds)",
-                    "template": "{{content.duration}}"
-                },
-                "publish_time": {
-                    "type": "integer",
-                    "title": "Publish Time (Unix timestamp)",
-                    "template": "{{content.publish_time}}"
-                }
-            },
-            "template": "{{content.duration}}s"
+            "type": "string",
+            "title": "Content Info",
+            "description": "Duration and publish time (seconds, unix timestamp)",
+            "template": "Duration: {{content.duration}}s, Published: {{content.publish_time}}"
         },
         "engagement": {
-            "type": "object",
-            "title": "Engagement",
-            "description": "Engagement metrics (views, likes, etc.)",
-            "properties": {
-                "views": {
-                    "type": "integer",
-                    "title": "Views",
-                    "template": "{{engagement.views}}"
-                },
-                "likes": {
-                    "type": "integer",
-                    "title": "Likes",
-                    "template": "{{engagement.likes}}"
-                },
-                "coins": {
-                    "type": "integer",
-                    "title": "Coins",
-                    "template": "{{engagement.coins}}"
-                },
-                "favorites": {
-                    "type": "integer",
-                    "title": "Favorites",
-                    "template": "{{engagement.favorites}}"
-                },
-                "shares": {
-                    "type": "integer",
-                    "title": "Shares",
-                    "template": "{{engagement.shares}}"
-                },
-                "engagement_rate": {
-                    "type": "number",
-                    "title": "Engagement Rate",
-                    "template": "{{engagement.engagement_rate}}"
-                }
-            },
-            "template": "{{engagement.views}} views"
+            "type": "string",
+            "title": "Engagement Stats",
+            "description": "Views, Likes, Coins, Favorites, Shares, Engagement Rate",
+            "template": "Views: {{engagement.views}}, Likes: {{engagement.likes}}, Favorites: {{engagement.favorites}}, Shares: {{engagement.shares}}, Rate: {{engagement.engagement_rate}}"
         }
     },
     "required": ["video_id", "url", "title"]
