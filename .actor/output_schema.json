@@ -1,0 +1,21 @@
+{
+    "actorOutputSchemaVersion": 1,
+    "title": "Bilibili Scraper Output",
+    "properties": {
+        "overview": {
+            "type": "string",
+            "title": "Overview",
+            "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
+        },
+        "trending": {
+            "type": "string",
+            "title": "Trending Videos",
+            "template": "{{links.apiDefaultDatasetUrl}}/items?view=trending"
+        },
+        "raw_data": {
+            "type": "string",
+            "title": "Raw Dataset",
+            "template": "{{links.apiDefaultDatasetUrl}}/items"
+        }
+    }
+}

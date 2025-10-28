@@ -1,22 +1,40 @@
 {
-  "name": "bilibili-actor",
-  "version": "1.0.0",
-  "type": "module",
-  "main": "main.js",
-  "scripts": {
-    "start": "node main.js",
-    "scrape": "apify run --input-file=input.json"
-  },
-  "dependencies": {
-    "apify": "^3.5.1",
-    "axios": "^1.4.0",
-    "crawlee": "^3.15.2",
-    "p-limit": "^7.2.0",
-    "p-retry": "^7.1.0",
-    "playwright": "^1.56.1",
-    "xml2js": "^0.6.2"
-  },
-  "devDependencies": {
-    "nock": "^13.0.0"
-  }
+    "name": "bilibili-actor",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "dist/main.js",
+    "scripts": {
+        "start": "npm run start:dev",
+        "start:prod": "node dist/main.js",
+        "start:dev": "tsx src/main.ts",
+        "build": "tsc",
+        "lint": "eslint",
+        "lint:fix": "eslint --fix",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "mock-run": "apify run --input-file=mock_input.json",
+        "postinstall": "npx crawlee install-playwright-browsers"
+    },
+    "dependencies": {
+        "apify": "^3.5.1",
+        "axios": "^1.4.0",
+        "crawlee": "^3.15.2",
+        "p-limit": "^7.2.0",
+        "p-retry": "^7.1.0",
+        "playwright": "^1.56.1",
+        "xml2js": "^0.6.2"
+    },
+    "devDependencies": {
+        "@apify/eslint-config": "^1.0.0",
+        "@apify/tsconfig": "^0.1.1",
+        "@types/node": "^22.15.32",
+        "eslint": "^9.29.0",
+        "eslint-config-prettier": "^10.1.5",
+        "globals": "^16.2.0",
+        "nock": "^13.0.0",
+        "prettier": "^3.5.3",
+        "tsx": "^4.20.3",
+        "typescript": "^5.8.3",
+        "typescript-eslint": "^8.34.1"
+    }
 }

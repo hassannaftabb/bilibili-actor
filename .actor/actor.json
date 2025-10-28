@@ -1,0 +1,17 @@
+{
+    "actorSpecification": 1,
+    "name": "bilibili-actor",
+    "title": "Bilibili Trend Crawler",
+    "description": "Capture trends from Bilibili with TypeScript support.",
+    "version": "1.0.0",
+    "meta": {
+        "templateId": "ts-crawlee-playwright-chrome",
+        "model": "bilibili-trend-scraper"
+    },
+    "input": "./input_schema.json",
+    "output": "./output_schema.json",
+    "storages": {
+        "dataset": "./dataset_schema.json"
+    },
+    "dockerfile": "../Dockerfile"
+}

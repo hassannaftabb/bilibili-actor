@@ -1,0 +1,169 @@
+{
+    "actorSpecification": 1,
+    "fields": {
+        "video_id": {
+            "type": "string",
+            "title": "Video ID",
+            "description": "Unique Bilibili video identifier (BVID)"
+        },
+        "url": {
+            "type": "string",
+            "title": "Video URL",
+            "description": "Direct link to the video"
+        },
+        "title": {
+            "type": "string",
+            "title": "Video Title",
+            "description": "Title of the video"
+        },
+        "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Video description"
+        },
+        "thumbnail": {
+            "type": "string",
+            "title": "Thumbnail",
+            "description": "Video thumbnail URL"
+        },
+        "tags": {
+            "type": "array",
+            "title": "Tags",
+            "description": "Video tags/categories",
+            "items": {
+                "type": "string"
+            }
+        },
+        "author": {
+            "type": "object",
+            "title": "Author",
+            "description": "Video author information",
+            "properties": {
+                "user_id": {
+                    "type": "integer",
+                    "title": "User ID"
+                },
+                "username": {
+                    "type": "string",
+                    "title": "Username"
+                }
+            }
+        },
+        "content": {
+            "type": "object",
+            "title": "Content Details",
+            "description": "Video content information",
+            "properties": {
+                "duration": {
+                    "type": "integer",
+                    "title": "Duration (seconds)"
+                },
+                "publish_time": {
+                    "type": "integer",
+                    "title": "Publish Time (Unix timestamp)"
+                }
+            }
+        },
+        "engagement": {
+            "type": "object",
+            "title": "Engagement Metrics",
+            "description": "Video engagement statistics",
+            "properties": {
+                "views": {
+                    "type": "integer",
+                    "title": "Views"
+                },
+                "likes": {
+                    "type": "integer",
+                    "title": "Likes"
+                },
+                "coins": {
+                    "type": "integer",
+                    "title": "Coins"
+                },
+                "favorites": {
+                    "type": "integer",
+                    "title": "Favorites"
+                },
+                "shares": {
+                    "type": "integer",
+                    "title": "Shares"
+                },
+                "engagement_rate": {
+                    "type": "number",
+                    "title": "Engagement Rate"
+                }
+            }
+        }
+    },
+    "views": {
+        "overview": {
+            "title": "Overview",
+            "transformation": {
+                "fields": ["video_id", "title", "url", "author", "engagement"]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "video_id": {
+                        "label": "Video ID",
+                        "format": "text"
+                    },
+                    "title": {
+                        "label": "Title",
+                        "format": "text"
+                    },
+                    "url": {
+                        "label": "URL",
+                        "format": "link"
+                    },
+                    "author": {
+                        "label": "Author",
+                        "format": "object"
+                    },
+                    "engagement": {
+                        "label": "Engagement",
+                        "format": "object"
+                    }
+                }
+            }
+        },
+        "trending": {
+            "title": "Trending Videos",
+            "transformation": {
+                "fields": [
+                    "video_id",
+                    "title",
+                    "engagement.views",
+                    "engagement.likes",
+                    "engagement.engagement_rate"
+                ]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "video_id": {
+                        "label": "Video ID",
+                        "format": "text"
+                    },
+                    "title": {
+                        "label": "Title",
+                        "format": "text"
+                    },
+                    "engagement.views": {
+                        "label": "Views",
+                        "format": "number"
+                    },
+                    "engagement.likes": {
+                        "label": "Likes",
+                        "format": "number"
+                    },
+                    "engagement.engagement_rate": {
+                        "label": "Engagement Rate",
+                        "format": "percentage"
+                    }
+                }
+            }
+        }
+    }
+}
