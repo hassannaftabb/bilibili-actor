@@ -21,7 +21,7 @@ await Actor.init();
 
 try {
     const input = (await Actor.getInput<BilibiliInput>()) ?? ({} as BilibiliInput);
-    console.info('🎬 INPUT LOADED:', input);
+    console.info('INPUT LOADED:', input);
 
     let {
         search = '原神', // default keyword: "Genshin Impact"
@@ -72,13 +72,13 @@ try {
                     });
                     await page.setViewportSize({ width: 1366, height: 768 });
                 } catch (err) {
-                    console.warn('⚠️ Stealth setup failed:', (err as Error).message);
+                    console.warn('Stealth setup failed:', (err as Error).message);
                 }
             },
         ],
 
         requestHandler: async ({ page, request, log }) => {
-            log.info(`🔍 Crawling: ${request.url}`);
+            log.info(`crawling: ${request.url}`);
 
             await page.waitForTimeout(1200);
 
@@ -94,7 +94,7 @@ try {
             }
 
             const unique = Array.from(new Set(bvids)).slice(0, maxResults);
-            log.info(`🎯 Found ${unique.length} candidate videos.`);
+            log.info(`Found ${unique.length} candidate videos.`);
 
             await Promise.all(
                 unique.map((bvid) =>
@@ -124,7 +124,7 @@ try {
                             const stat = statJson as BilibiliStatResponse | null;
 
                             if (!view?.data && !stat?.data) {
-                                log.warning(`⚠️ Skipping ${bvid}: invalid API response`);
+                                log.warning(`Skipping ${bvid}: invalid API response`);
                                 return;
                             }
 
@@ -180,9 +180,9 @@ try {
                                 (likes + coins + favorites) / Math.max(1, views);
 
                             await Actor.pushData(out);
-                            log.info(`✅ Saved ${bvid}`);
+                            log.info(`Saved ${bvid}`);
                         } catch (err) {
-                            log.warning(`❌ Failed processing ${bvid}: ${(err as Error).message}`);
+                            log.warning(`Failed processing ${bvid}: ${(err as Error).message}`);
                         }
                     })
                 )
@@ -190,17 +190,17 @@ try {
         },
 
         failedRequestHandler: async ({ request, log }) => {
-            log.warning(`🚫 Request failed after retries: ${request.url}`);
+            log.warning(`Request failed after retries: ${request.url}`);
         },
     });
 
     const searchUrl = `https://search.bilibili.com/all?keyword=${encodeURIComponent(search)}`;
-    console.info('📦 Enqueuing search page:', searchUrl);
+    console.info('Enqueuing search page:', searchUrl);
     await crawler.run([searchUrl]);
 
-    console.info('🏁 Crawl completed successfully.');
+    console.info('Crawl completed successfully.');
 } catch (err) {
-    console.error('💥 Top-level error:', (err as Error).message);
+    console.error('Top-level error:', (err as Error).message);
 }
 
 await Actor.exit();
