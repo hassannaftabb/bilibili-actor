@@ -1,5 +1,5 @@
 /**
- * Bilibili Trend Crawler (Apify Actor)
+ * Bilibili Trends Crawler (Apify Actor)
  * Purpose: Capture trends from Bilibili
  */
 
